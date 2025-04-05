@@ -15,7 +15,12 @@ conn = psycopg2.connect(
 )
 
 # SQLからデータを読み込む
-query = "SELECT latitude, longitude, wind_direction, wind_speed FROM weather.wind;"
+start_date = '2025-04-05 00:00:00'
+end_date = '2025-04-05 23:59:59'
+query = f"""
+SELECT latitude, longitude, wind_direction, wind_speed FROM weather.wind
+WHERE measured_at >= '{start_date}' AND measured_at <= '{end_date}'
+"""
 with conn.cursor() as cursor:
     cursor.execute(query)
     result = cursor.fetchall()
